@@ -3,6 +3,7 @@ import tensorflow as tf
 from keras.models import Model
 from keras.layers import Dense, Dropout, LSTM, Input, Activation, concatenate
 from keras import optimizers
+import matplotlib.pyplot as plt
 from util import csv_to_dataset, history_days
 import numpy as np
 np.random.seed(4)
@@ -55,9 +56,7 @@ print(scaled_mse)
 
 
 # Plot real and predicted stock prices to visualize model's performance
-import matplotlib.pyplot as plt
 plt.gcf().set_size_inches(22, 15, forward=True)
-
 start = 0
 end = -1
 real = plt.plot(unscaled_open_prices_test[start:end], label='real')
