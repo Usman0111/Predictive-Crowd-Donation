@@ -1,1 +1,1 @@
-# HackRiceX Project - Frontend
+# Front End
