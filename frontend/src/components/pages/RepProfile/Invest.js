@@ -13,14 +13,17 @@ import {
   CardText,
   Table,
   Input,
+  Spinner,
 } from "reactstrap";
 import Linegraph from "../../Linegraph";
 import Bargraph from "../../Bargraph";
+import axios from "axios";
 
 const Invest = (props) => {
   const { data, setData } = props;
-  const [predicted, setPredicted] = useState(false);
+  const [predicted, setPredicted] = useState();
   const [ticker, setTicker] = useState("");
+  const [loading, setLoading] = useState(false);
 
   const getInvestmentrData = () => {
     let labels = [];
@@ -40,6 +43,24 @@ const Invest = (props) => {
       vdata.push(donor.return);
     });
     return { labels, vdata };
+  };
+
+  const getPrice = () => {
+    setLoading(true);
+    axios
+      .get("http://127.0.0.1:5000/", {
+        params: {
+          query: ticker,
+        },
+      })
+      .then((response) => {
+        setPredicted(response.data);
+        console.log(response);
+        setLoading(false);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
   };
 
   return (
@@ -73,22 +94,27 @@ const Invest = (props) => {
               <CardHeader>ML Powered Stock Price Predictor</CardHeader>
               <CardBody>
                 <CardTitle>Enter the stock ticker</CardTitle>
+                {loading ? <Spinner color="dark" /> : <></>}
                 {!predicted ? (
-                  <Input
-                    placeholder="For example: MSFT"
-                    className="mb-2"
-                    onChange={(e) => setTicker(e.target.value)}
-                  />
+                  <>
+                    <Input
+                      placeholder="For example: MSFT"
+                      className="mb-2"
+                      onChange={(e) => setTicker(e.target.value)}
+                    />
+                    <Button onClick={getPrice}>Predict</Button>
+                  </>
                 ) : (
                   <>
                     <CardText>
                       {ticker} price would go up be $100 by tomorrow
                     </CardText>
                     <CardText>Should I Invest? Yes</CardText>
+                    <Button onClick={setPredicted}>
+                      Predict Another Stock
+                    </Button>
                   </>
                 )}
-
-                <Button>Predict</Button>
               </CardBody>
             </Card>
           </Col>

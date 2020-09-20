@@ -5,7 +5,7 @@ import Profile from "./Profile";
 import Invest from "./Invest";
 
 const Rep = () => {
-  const [activeTab, setActiveTab] = useState("2");
+  const [activeTab, setActiveTab] = useState("1");
 
   const toggle = (tab) => {
     if (activeTab !== tab) setActiveTab(tab);
@@ -18,18 +18,19 @@ const Rep = () => {
       invested: 1000,
       returns: 100,
     },
-    leadName: "Lead 1",
-    description: "Somehting about org",
+    name: "Feeding America",
+    leadName: "Syed",
+    description:
+      "Covid-19 Response Fund that is helping to ensure food banks across the country can feed those in need right now, including the children who rely on school meals to eat.",
     donors: [
-      { name: "Donor 1", amount: 1000 },
-      { name: "Donor 1", amount: 3000 },
-      { name: "Donor 1", amount: 2000 },
-      { name: "Donor 1", amount: 1000 },
-      { name: "Donor 1", amount: 4000 },
+      { name: "Syed", amount: 100 },
+      { name: "Muhammad", amount: 200 },
+      { name: "George", amount: 700 },
     ],
     investments: [
       { stock: "TSLA", amount: 2000, return: 100 },
       { stock: "AMZN", amount: 3000, return: 200 },
+      { stock: "APPL", amount: 1000, return: 200 },
     ],
   });
 
