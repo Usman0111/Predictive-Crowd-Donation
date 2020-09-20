@@ -6,6 +6,11 @@ import OrgRepForm from "./OrgRepForm";
 
 const Register = (props) => {
   const [isDonor, setIsDonor] = useState(true);
+  const [state, useState] = useState({
+    name: "",
+    email: "",
+    password: "",
+  })
 
   const toggleForm = () => {
     setIsDonor(!isDonor);
@@ -13,7 +18,7 @@ const Register = (props) => {
   return (
     <Card className="w-75">
       <CardBody>
-        <FormGroup>
+        <FormGroup >
           <Label for="exampleSelect">Register as a</Label>
           <Input
             type="select"
