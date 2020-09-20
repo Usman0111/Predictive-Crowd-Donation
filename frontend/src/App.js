@@ -14,6 +14,12 @@ class App extends React.Component
     if (!firebase.apps.length){
       firebase.initializeApp(credentials.firebaseConfig);
     }
+    firebase.auth().onAuthStateChanged(this.onAuthChange);
+  }
+
+  onAuthChange = (user) => {
+    this.setState({isAuthenticated: !!user});
+    
   }
 
   render()

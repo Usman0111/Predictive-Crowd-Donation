@@ -1,14 +1,14 @@
 import React from "react";
 import { Button, Form, FormGroup, Label, Input } from "reactstrap";
 
-const DonorForm = () => {
+const DonorForm = (props) => {
   return (
-    <Form>
-      <FormGroup className="mb-2 mr-sm-2 mb-sm-0">
+    <Form onSubmit={props.handleSubmit} >
+      <FormGroup className="mb-2 mr-sm-2 mb-sm-0"  >
         <Label for="exampleName" className="mr-sm-2">
           Name
         </Label>
-        <Input type="text" name="name" id="exampleName" placeholder="batman" />
+        <Input type="text" name="name" id="exampleName" placeholder="batman" onChange={(e) => { props.setState({ ...props.state, name: e.target.value }) }} />
       </FormGroup>
       <FormGroup className="mb-2 mr-sm-2">
         <Label for="exampleEmail" className="mr-sm-2">
@@ -19,6 +19,7 @@ const DonorForm = () => {
           name="email"
           id="exampleEmail"
           placeholder="something@idk.cool"
+          onChange={(e) => { props.setState({ ...props.state, email: e.target.value }) }}
         />
       </FormGroup>
       <FormGroup className="mb-2 mr-sm-2">
@@ -30,6 +31,7 @@ const DonorForm = () => {
           name="password"
           id="examplePassword"
           placeholder="don't tell!"
+          onChange={(e) => { props.setState({ ...props.state, password: e.target.value }) }}
         />
       </FormGroup>
       <Button className="mt-2">Register</Button>
