@@ -11,7 +11,7 @@ const Home = () => {
     <Container className="mt-4" fluid>
       <Row>
         <Col xs="7">
-          <h1>Welcome to Predictive Crowd Donations</h1>
+          <h1>Using Machine Learning to Help Organizations</h1>
           <img src={pic} alt="illustration" height="600" width="600" />
         </Col>
         <Col xs="5">

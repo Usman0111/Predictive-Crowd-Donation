@@ -1,19 +1,15 @@
-import React from "react";
-import { Line } from "react-chartjs-2";
+import React, { useState } from "react";
+import { Doughnut } from "react-chartjs-2";
 
-const Linegraph = (props) => {
+const Donut = (props) => {
   const { labels, vdata } = props.getData();
-
   const state = {
     labels: labels,
     datasets: [
       {
         label: "Amount",
-        fill: false,
-        lineTension: 0.5,
-        backgroundColor: "rgba(75,192,192,1)",
-        borderColor: "rgba(0,0,0,1)",
-        borderWidth: 2,
+        backgroundColor: ["#ffadad", "#a0c4ff", "#bdb2ff", "#CAFFBF"],
+        hoverBackgroundColor: ["#FF8585", "#70A7FF", "#9985FF", "#99FF85"],
         data: vdata,
       },
     ],
@@ -21,7 +17,7 @@ const Linegraph = (props) => {
 
   return (
     <div>
-      <Line
+      <Doughnut
         data={state}
         options={{
           title: {
@@ -39,4 +35,4 @@ const Linegraph = (props) => {
   );
 };
 
-export default Linegraph;
+export default Donut;
