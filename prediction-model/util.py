@@ -2,10 +2,11 @@ import pandas as pd
 from sklearn import preprocessing
 import numpy as np
 
-history_days = 50
+history_days = 30 # Predict a month into future
 
 def csv_to_dataset(csv_file_path):
   file_data = pd.read_csv(csv_file_path)
+  file_data = file_data.iloc[::-1] # Reverse order, most recent values last, want to be predicting into future, not past
   file_data = file_data.drop('date', axis=1)
   file_data = file_data.drop(0, axis=0)
   print("File data DataFrame:", file_data.shape)
@@ -50,7 +51,8 @@ def csv_to_dataset(csv_file_path):
   moving_averages_normalised = moving_averages_scaler.fit_transform(moving_averages)
 
   assert ohlcv_histories_normalised.shape[0] == next_day_open_values_normalised.shape[0] == moving_averages_normalised.shape[0]
-  return ohlcv_histories_normalised, moving_averages_normalised, next_day_open_values_normalised, next_day_open_values, y_normaliser
+  return ohlcv_histories_normalised, next_day_open_values_normalised, next_day_open_values, y_normaliser
+  #return ohlcv_histories_normalised, moving_averages_normalised, next_day_open_values_normalised, next_day_open_values, y_normaliser
 
 
 
