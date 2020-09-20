@@ -4,34 +4,37 @@ from keras.models import Model
 from keras.layers import Dense, Dropout, LSTM, Input, Activation, concatenate
 from keras import optimizers
 import matplotlib.pyplot as plt
-from util import csv_to_dataset, history_days
+from util import csv_to_dataset, history_days, multiple_csv_to_dataset
 import numpy as np
 np.random.seed(4)
 tf.random.set_seed(4)
 
 
 # Load preprocessed dataset of stock prices
-ohlcv_histories, moving_averages, next_day_open_values, unscaled_open_prices, y_normaliser = csv_to_dataset('MSFT_daily.csv')
+#ohlcv_histories, moving_averages, next_day_open_values, unscaled_open_prices, y_normaliser = csv_to_dataset('MSFT_daily.csv')
 
 # Split into test and training sets
-train_split = 0.8
-n = int(ohlcv_histories.shape[0] * train_split)
+#train_split = 0.8
+#n = int(ohlcv_histories.shape[0] * train_split)
+#ohlcv_train = ohlcv_histories[:n]
+#mov_avg_train = moving_averages[:n]
+#open_prices_train = next_day_open_values[:n]
+#ohlcv_test = ohlcv_histories[n:]
+#mov_avg_test = moving_averages[n:]
+#open_prices_test = next_day_open_values[n:]
+#unscaled_open_prices_test = unscaled_open_prices[n:]
 
-ohlcv_train = ohlcv_histories[:n]
-mov_avg_train = moving_averages[:n]
-open_prices_train = next_day_open_values[:n]
 
-ohlcv_test = ohlcv_histories[n:]
-mov_avg_test = moving_averages[n:]
-open_prices_test = next_day_open_values[n:]
-
-unscaled_open_prices_test = unscaled_open_prices[n:]
+# Multiple csv dataset function returns training and testing splits already, commented out above
+# Training set is now Microsoft, Netflix, and Facebook stock prices. Google stock prices is the test set
+ohlcv_train, mov_avg_train, open_prices_train, ohlcv_test, mov_avg_test, open_prices_test, unscaled_open_prices_test, y_normaliser = multiple_csv_to_dataset('GOOGL_daily.csv')
+#**mov_avg_train is size of original moving_averages, ohlcv_train is size of old ohlvc_histories
 
 
 # Build Model v2 - more complex layers, 2 inputs
 # Two sets of input into model - previous stock prices over time and the techincal indicator (moving average)
 lstm_input = Input(shape=(history_days, 5), name='lstm_input')
-dense_input = Input(shape=(moving_averages.shape[1],), name='tech_input')
+dense_input = Input(shape=(mov_avg_train.shape[1],), name='tech_input')
  
 # First branch of model has layers for first input, stock prices from data
 x = LSTM(50, name='lstm_0')(lstm_input)
@@ -63,7 +66,7 @@ open_prices_test_predicted = model.predict([ohlcv_test, mov_avg_test])
 open_prices_test_predicted = y_normaliser.inverse_transform(open_prices_test_predicted)
 
 # Entire dataset prediction
-open_prices_predicted = model.predict([ohlcv_histories, moving_averages])
+open_prices_predicted = model.predict([ohlcv_train, mov_avg_train])
 open_prices_predicted = y_normaliser.inverse_transform(open_prices_predicted)
 
 assert unscaled_open_prices_test.shape == open_prices_test_predicted.shape
@@ -84,4 +87,4 @@ plt.legend(['Real', 'Predicted'])
 plt.show()
 
 
-model.save(f'multiple_input_model.h5')
+model.save(f'multiple_input_multiple_datasets_model.h5')

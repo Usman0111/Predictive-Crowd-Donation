@@ -57,24 +57,25 @@ def csv_to_dataset(csv_file_path):
 def multiple_csv_to_dataset(test_set_name):
   import os
   ohlcv_histories = 0
-  technical_indicators = 0
+  moving_averages = 0
   next_day_open_values = 0
+  # For each company stock dataset in directory, add data to training dataset
   for csv_file_path in list(filter(lambda x: x.endswith('daily.csv'), os.listdir('./'))):
-      if not csv_file_path == test_set_name:
-          print(csv_file_path)
-          if type(ohlcv_histories) == int:
-              ohlcv_histories, technical_indicators, next_day_open_values, _, _ = csv_to_dataset(csv_file_path)
-          else:
-              a, b, c, _, _ = csv_to_dataset(csv_file_path)
-              ohlcv_histories = np.concatenate((ohlcv_histories, a), 0)
-              technical_indicators = np.concatenate((technical_indicators, b), 0)
-              next_day_open_values = np.concatenate((next_day_open_values, c), 0)
+    if not csv_file_path == test_set_name:
+      print(csv_file_path)
+      if type(ohlcv_histories) == int:
+        ohlcv_histories, moving_averages, next_day_open_values, _, _ = csv_to_dataset(csv_file_path)
+      else:
+        a, b, c, _, _ = csv_to_dataset(csv_file_path)
+        ohlcv_histories = np.concatenate((ohlcv_histories, a), 0)
+        moving_averages = np.concatenate((moving_averages, b), 0)
+        next_day_open_values = np.concatenate((next_day_open_values, c), 0)
 
   ohlcv_train = ohlcv_histories
-  tech_ind_train = technical_indicators
-  y_train = next_day_open_values
+  mov_avg_train = moving_averages
+  open_prices_train = next_day_open_values
 
-  ohlcv_test, tech_ind_test, y_test, unscaled_y_test, y_normaliser = csv_to_dataset(test_set_name)
+  ohlcv_test, mov_avg_test, open_prices_test, unscaled_open_prices_test, y_normaliser = csv_to_dataset(test_set_name)
 
-  return ohlcv_train, tech_ind_train, y_train, ohlcv_test, tech_ind_test, y_test, unscaled_y_test, y_normaliser
+  return ohlcv_train, mov_avg_train, open_prices_train, ohlcv_test, mov_avg_test, open_prices_test, unscaled_open_prices_test, y_normaliser
 
