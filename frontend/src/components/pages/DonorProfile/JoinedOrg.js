@@ -9,19 +9,25 @@ import {
   InputGroupAddon,
   InputGroupText,
   Input,
-  Card,
+  Button,
+  DropdownToggle,
   CardHeader,
   CardFooter,
   CardBody,
   CardTitle,
   CardText,
-  Button,
-  DropdownToggle,
+  Modal,
+  ModalHeader,
+  ModalBody,
+  ModalFooter,
 } from "reactstrap";
 
 const JoinedOrg = (props) => {
   const [isOpen, setIsOpen] = useState(false);
   const toggle = () => setIsOpen(!isOpen);
+
+  const [modal, setModal] = useState(false);
+  const toggleModal = () => setModal(!modal);
 
   const [dAmount, setDAmount] = useState(0);
   const { org, data, donate } = props;
@@ -35,6 +41,7 @@ const JoinedOrg = (props) => {
   };
 
   const callDonate = () => {
+    toggleModal();
     setDAmount(0);
     donate(org, dAmount);
   };
@@ -62,11 +69,27 @@ const JoinedOrg = (props) => {
             placeholder="Amount"
             onChange={(e) => setDAmount(Number(e.target.value))}
           />
-          <Button className="ml-2" onClick={callDonate}>
+          <Button className="ml-2" onClick={toggleModal}>
             Donate
           </Button>
         </InputGroup>
       </Collapse>
+      <Modal isOpen={modal} toggle={toggleModal}>
+        <ModalHeader toggle={toggleModal}>Cofirm Payment</ModalHeader>
+        <ModalBody>
+          Credit Card: *********4456 <br />
+          Expiration: 10/27/2022 <br />
+          Name on Card: Muhammad Usman
+        </ModalBody>
+        <ModalFooter>
+          <Button color="primary" onClick={callDonate}>
+            Confirm
+          </Button>{" "}
+          <Button color="secondary" onClick={toggleModal}>
+            Cancel
+          </Button>
+        </ModalFooter>
+      </Modal>
     </ListGroupItem>
   );
 };

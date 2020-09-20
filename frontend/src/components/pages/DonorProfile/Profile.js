@@ -7,6 +7,9 @@ import OrganizationList from "./OrganizationList";
 import Bargraph from "../../Bargraph";
 
 const Profile = (props) => {
+  const [modal, setModal] = useState(false);
+  const toggle = () => setModal(!modal);
+
   const { data, setData } = props;
 
   const getData = () => {
@@ -28,7 +31,7 @@ const Profile = (props) => {
         <Row>
           <Col className="p-0" xs="4">
             <Totals totals={data.totals} />
-            <OrganizationList data={data} setData={setData} />
+            <OrganizationList toggle={toggle} data={data} setData={setData} />
           </Col>
           <Col className="p-0" xs="7">
             <Container>
