@@ -75,7 +75,7 @@ const JoinedOrg = (props) => {
         </InputGroup>
       </Collapse>
       <Modal isOpen={modal} toggle={toggleModal}>
-        <ModalHeader toggle={toggleModal}>Cofirm Payment</ModalHeader>
+        <ModalHeader toggle={toggleModal}>Confirm Donation</ModalHeader>
         <ModalBody>
           Credit Card: *********4456 <br />
           Expiration: 10/27/2022 <br />

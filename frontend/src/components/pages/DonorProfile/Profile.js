@@ -7,10 +7,10 @@ import OrganizationList from "./OrganizationList";
 import Bargraph from "../../Bargraph";
 
 const Profile = (props) => {
-  const [modal, setModal] = useState(false);
-  const toggle = () => setModal(!modal);
-
   const { data, setData } = props;
+  const [isOpen, setIsOpen] = useState(false);
+
+  const toggle = () => setIsOpen(!isOpen);
 
   const getData = () => {
     let labels = [];
